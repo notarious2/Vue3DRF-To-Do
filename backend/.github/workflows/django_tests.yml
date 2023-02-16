@@ -1,0 +1,24 @@
+name: Django Unit Tests
+
+on:
+  push:
+    paths:
+      - backend/**
+
+jobs:
+  test:
+    name: "Django unit tests"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Setup Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python version: 3.10
+      - name: Install Python Requirements
+        run: |
+          pip install -r requirements.txt
+      - name: Run Unit Tests
+        run: |
+          python manage.py test
