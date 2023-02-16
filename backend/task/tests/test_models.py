@@ -13,4 +13,5 @@ class TestTaskModel(TestCase):
         task = Task.objects.create(priority=1, text="test task", user=user)
         self.assertEqual(Task.objects.count(), 1)
         self.assertEqual(task.user, user)
+        self.assertEqual(task.text, "test task")
         self.assertEqual(str(task), "test task by testuser")
