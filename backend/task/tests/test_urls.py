@@ -19,9 +19,10 @@ class TestTaskUrls(TestCase):
         # create a task to pass task_id as an argument/path variable
         user = User.objects.create_user(
             email="test@example.com", username="testuser")
-        task = Task.objects.create(priority=1, text="test task", user=user)
+        task_id = Task.objects.create(
+            priority=1, text="test task", user=user).task_id
 
-        url = reverse('change_tasks', args=[task.task_id])
+        url = reverse('change_tasks', args=[task_id])
         self.assertEqual(resolve(url).func.view_class, TaskDetailAPI)
 
     def test_change_tasks_url_is_resolved(self):
