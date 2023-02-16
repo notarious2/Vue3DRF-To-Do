@@ -6,7 +6,7 @@
         <img src="@/assets/register/user.png" alt="user" class="user-img" />
         <input
           type="text"
-          placeholder="Enter username or email"
+          placeholder="Username or Email"
           name="uname"
           required
           v-model="username"
@@ -23,7 +23,7 @@
         <input
           id="inline-input"
           :type="passwordType"
-          placeholder="Enter password"
+          placeholder="Password"
           name="psw"
           required
           v-model="password"
