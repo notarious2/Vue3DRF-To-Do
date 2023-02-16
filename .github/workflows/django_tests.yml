@@ -5,6 +5,10 @@ on:
     paths:
       - backend/**
 
+defaults:
+  run:
+    working-directory: ./backend
+
 jobs:
   test:
     name: "Django unit tests"
