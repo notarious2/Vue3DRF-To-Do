@@ -9,6 +9,7 @@ from rest_framework.permissions import IsAuthenticated
 
 class TaskViewAPI(GenericAPIView):
     """An API to retrieve and create tasks"""
+
     serializer_class = serializers.TaskSerializer
     # queryset = Task.objects.all()
     permission_classes = [IsAuthenticated]
@@ -34,6 +35,7 @@ class TaskViewAPI(GenericAPIView):
 
 class TaskDetailAPI(GenericAPIView):
     """An API to update and delete individual tasks"""
+
     serializer_class = serializers.TaskSerializer
     permission_classes = [IsAuthenticated]
 
@@ -56,6 +58,7 @@ class TaskDetailAPI(GenericAPIView):
 
 class TaskUpdatePriorityAPI(GenericAPIView):
     """Update priority of multiple tasks"""
+
     serializer_class = serializers.TaskPriorityUpdateSerializer
     permission_classes = [IsAuthenticated]
 
@@ -63,17 +66,19 @@ class TaskUpdatePriorityAPI(GenericAPIView):
         data = request.data
         # no need to make use of is_valid as it is tested during creation
         serializer = self.serializer_class(data=data)
-        data = data['update']
+        data = data["update"]
 
         # to make sure that all orders belong to a user
         user = request.user
         # filter tasks by user and date
-        tasks = Task.objects.filter(pk__in=data).order_by('pk')
-        tasks_with_user = Task.objects.filter(
-            pk__in=data, user=user).order_by('pk')
+        tasks = Task.objects.filter(pk__in=data).order_by("pk")
+        tasks_with_user = Task.objects.filter(pk__in=data, user=user).order_by("pk")
         # to make sure that user is trying to modify own tasks
         if list(tasks) != list(tasks_with_user):
-            return Response("You cannot modify other users' tasks", status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                "You cannot modify other users' tasks",
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
         for task in tasks:
             task.priority = data[str(task.task_id)]

@@ -26,3 +26,7 @@ jobs:
       - name: Run Unit Tests
         run: |
           python manage.py test
+      - name: Linting using Black
+        uses: psf/black@stable
+        with:
+          options: "--check"

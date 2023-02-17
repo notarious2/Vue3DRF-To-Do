@@ -17,19 +17,21 @@ class TestTaskViewAPI(TestCase):
     def setUp(self):
         self.client = APIClient()
         self.user = User.objects.create_user(
-            email="test@example.com", username="testuser")
+            email="test@example.com", username="testuser"
+        )
         self.user_2 = User.objects.create_user(
-            email="test2@example.com", username="testuser2")
+            email="test2@example.com", username="testuser2"
+        )
 
     def test_get_tasks_unauthorized(self):
         """Test getting tasks by unauthorized user"""
-        url = reverse('get_tasks')
+        url = reverse("get_tasks")
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_get_tasks_authorized_no_tasks(self):
         """Test getting tasks by authorized user with no tasks"""
-        url = reverse('get_tasks')
+        url = reverse("get_tasks")
         self.client.force_authenticate(self.user)
         response = self.client.get(url)
 
@@ -39,14 +41,12 @@ class TestTaskViewAPI(TestCase):
     def test_get_tasks_authorized_with_tasks(self):
         """Test getting tasks by authorized user with tasks"""
         # create test tasks
-        Task.objects.create(
-            priority=1, text='test task 1', user=self.user)
-        Task.objects.create(
-            priority=2, text='test task 2', user=self.user)
+        Task.objects.create(priority=1, text="test task 1", user=self.user)
+        Task.objects.create(priority=2, text="test task 2", user=self.user)
 
         tasks = Task.objects.filter(user=self.user)
         task_serializer = TaskSerializer(tasks, many=True)
-        url = reverse('get_tasks')
+        url = reverse("get_tasks")
         # authenticate the client
         self.client.force_authenticate(self.user)
 
@@ -57,15 +57,13 @@ class TestTaskViewAPI(TestCase):
     def test_get_tasks_authorized_with_tasks(self):
         """Test getting OWN tasks by authorized user with tasks"""
         # create test task for user
-        Task.objects.create(
-            priority=1, text='test task 1', user=self.user)
+        Task.objects.create(priority=1, text="test task 1", user=self.user)
         # create task for another user
-        Task.objects.create(
-            priority=2, text='test task 1', user=self.user_2)
+        Task.objects.create(priority=2, text="test task 1", user=self.user_2)
 
         tasks = Task.objects.filter(user=self.user)
         task_serializer = TaskSerializer(tasks, many=True)
-        url = reverse('get_tasks')
+        url = reverse("get_tasks")
         # authenticate the client
         self.client.force_authenticate(self.user)
         response = self.client.get(url)
@@ -76,10 +74,10 @@ class TestTaskViewAPI(TestCase):
     def test_POST_create_task_unauthorized(self):
         """Test POST request to create task by unauthorized user"""
 
-        url = reverse('get_tasks')
+        url = reverse("get_tasks")
         payload = {
-            'priority': 1,
-            'text': 'test task 1',
+            "priority": 1,
+            "text": "test task 1",
         }
         response = self.client.post(url, payload)
 
@@ -88,10 +86,10 @@ class TestTaskViewAPI(TestCase):
     def test_POST_create_task_authorized_invalid(self):
         """Test POST request to create a task (invalid data passed) by authorized user"""
 
-        url = reverse('get_tasks')
+        url = reverse("get_tasks")
         payload = {
-            'priority': True,  # incorrect input
-            'text': 'test task 1',
+            "priority": True,  # incorrect input
+            "text": "test task 1",
         }
         # authenticate the client
         self.client.force_authenticate(self.user)
@@ -102,10 +100,10 @@ class TestTaskViewAPI(TestCase):
     def test_POST_create_task_authorized_valid(self):
         """Test POST request to create a task (valid data passed) by authorized user"""
 
-        url = reverse('get_tasks')
+        url = reverse("get_tasks")
         payload = {
-            'priority': 1,
-            'text': 'test task 1',
+            "priority": 1,
+            "text": "test task 1",
         }
         # authenticate the client
         self.client.force_authenticate(self.user)
@@ -115,7 +113,7 @@ class TestTaskViewAPI(TestCase):
 
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(tasks.count(), 1)
-        self.assertEqual(payload['text'], tasks[0].text)
+        self.assertEqual(payload["text"], tasks[0].text)
 
 
 class TestTaskDetailAPI(TestCase):
@@ -126,20 +124,24 @@ class TestTaskDetailAPI(TestCase):
         self.client = APIClient()
 
         self.user_1 = User.objects.create_user(
-            email="test1@example.com", username="testuser1")
+            email="test1@example.com", username="testuser1"
+        )
         self.client.force_authenticate(self.user_1)
         self.task_1 = Task.objects.create(
-            priority=1, text='test task 1', user=self.user_1)
+            priority=1, text="test task 1", user=self.user_1
+        )
 
         self.user_2 = User.objects.create_user(
-            email="test2@example.com", username="testuser2")
+            email="test2@example.com", username="testuser2"
+        )
         self.task_2 = Task.objects.create(
-            priority=1, text='test task 2', user=self.user_2)
+            priority=1, text="test task 2", user=self.user_2
+        )
 
     def test_DELETE_valid(self):
         """Test that task gets deleted successfully"""
 
-        url = reverse('change_tasks', args=[self.task_1.task_id])
+        url = reverse("change_tasks", args=[self.task_1.task_id])
         response = self.client.delete(url)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -147,7 +149,7 @@ class TestTaskDetailAPI(TestCase):
 
     def test_DELETE_unauthorized(self):
         """Test trying to delete a task by unauthorized user"""
-        url = reverse('change_tasks', args=[self.task_1.task_id])
+        url = reverse("change_tasks", args=[self.task_1.task_id])
         response = self.unauthorized_client.delete(url)
 
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
@@ -155,7 +157,7 @@ class TestTaskDetailAPI(TestCase):
     def test_DELETE_other_user(self):
         """Test trying to delete a task of the another user"""
 
-        url = reverse('change_tasks', args=[self.task_2.task_id])
+        url = reverse("change_tasks", args=[self.task_2.task_id])
         response = self.client.delete(url)
 
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
@@ -163,27 +165,21 @@ class TestTaskDetailAPI(TestCase):
 
     def test_PATCH_update_multiple_valid(self):
         """Test updating multiple fields at once"""
-        payload = {
-            'priority': 99,
-            'text': 'updated text'
-        }
-        url = reverse('change_tasks', args=[self.task_1.task_id])
+        payload = {"priority": 99, "text": "updated text"}
+        url = reverse("change_tasks", args=[self.task_1.task_id])
         response = self.client.patch(url, data=payload)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data, 'Task has been updated')
-        self.assertEqual(Task.objects.filter(
-            user=self.user_1)[0].text, payload['text'])
-        self.assertEqual(Task.objects.filter(
-            user=self.user_1)[0].priority, payload['priority'])
+        self.assertEqual(response.data, "Task has been updated")
+        self.assertEqual(Task.objects.filter(user=self.user_1)[0].text, payload["text"])
+        self.assertEqual(
+            Task.objects.filter(user=self.user_1)[0].priority, payload["priority"]
+        )
 
     def test_PATCH_update_multiple_invalid(self):
         """Test updating multiple fields at once with invalid data"""
-        payload = {
-            'priority': False,  # invalid input
-            'text': 'updated text'
-        }
-        url = reverse('change_tasks', args=[self.task_1.task_id])
+        payload = {"priority": False, "text": "updated text"}  # invalid input
+        url = reverse("change_tasks", args=[self.task_1.task_id])
         response = self.client.patch(url, data=payload)
 
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
@@ -191,7 +187,7 @@ class TestTaskDetailAPI(TestCase):
     def test_PATCH_update_unauthorized(self):
         """Test attempt to update task by unauthorized user"""
         payload = {"text": "update by unathorized"}
-        url = reverse('change_tasks', args=[self.task_1.task_id])
+        url = reverse("change_tasks", args=[self.task_1.task_id])
         response = self.unauthorized_client.patch(url, data=payload)
 
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
@@ -199,7 +195,7 @@ class TestTaskDetailAPI(TestCase):
     def test_PATCH_update_other_user(self):
         """Test trying to update a task of the another user"""
         payload = {"text": "update by another user"}
-        url = reverse('change_tasks', args=[self.task_2.task_id])
+        url = reverse("change_tasks", args=[self.task_2.task_id])
         response = self.client.patch(url, data=payload)
 
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
@@ -213,103 +209,90 @@ class TestUpdateTaskPriorityAPI(TestCase):
         self.client = APIClient()
 
         self.user_1 = User.objects.create_user(
-            email="test1@example.com", username="testuser1")
+            email="test1@example.com", username="testuser1"
+        )
         self.client.force_authenticate(self.user_1)
         # create 2 tasks by the first user
         self.task_1 = Task.objects.create(
-            priority=1, text='test task 1', user=self.user_1)
+            priority=1, text="test task 1", user=self.user_1
+        )
         self.task_2 = Task.objects.create(
-            priority=2, text='test task 2', user=self.user_1)
+            priority=2, text="test task 2", user=self.user_1
+        )
         # create 2 tasks by the second user
         self.user_2 = User.objects.create_user(
-            email="test2@example.com", username="testuser2")
+            email="test2@example.com", username="testuser2"
+        )
         self.task_3 = Task.objects.create(
-            priority=1, text='test task 3', user=self.user_2)
+            priority=1, text="test task 3", user=self.user_2
+        )
         self.task_4 = Task.objects.create(
-            priority=2, text='test task 4', user=self.user_2)
+            priority=2, text="test task 4", user=self.user_2
+        )
 
     def test_PATCH_update_priority_valid(self):
         """Test updating priorities succeeds"""
 
-        payload = {
-            'update':
-            {
-                str(self.task_1.task_id): 2,
-                str(self.task_2.task_id): 1
-            }
-        }
+        payload = {"update": {str(self.task_1.task_id): 2, str(self.task_2.task_id): 1}}
 
         # double check priorities before request
-        self.assertEqual(Task.objects.filter(
-            task_id=self.task_1.task_id)[0].priority, 1)
-        self.assertEqual(Task.objects.filter(
-            task_id=self.task_2.task_id)[0].priority, 2)
+        self.assertEqual(
+            Task.objects.filter(task_id=self.task_1.task_id)[0].priority, 1
+        )
+        self.assertEqual(
+            Task.objects.filter(task_id=self.task_2.task_id)[0].priority, 2
+        )
 
-        url = reverse('update_priority')
-        response = self.client.patch(url, data=payload, format='json')
+        url = reverse("update_priority")
+        response = self.client.patch(url, data=payload, format="json")
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data, "Tasks order has been updated")
         # check priorities again
-        self.assertEqual(Task.objects.filter(
-            task_id=self.task_1.task_id)[0].priority, 2)
-        self.assertEqual(Task.objects.filter(
-            task_id=self.task_2.task_id)[0].priority, 1)
+        self.assertEqual(
+            Task.objects.filter(task_id=self.task_1.task_id)[0].priority, 2
+        )
+        self.assertEqual(
+            Task.objects.filter(task_id=self.task_2.task_id)[0].priority, 1
+        )
 
     def test_PATCH_update_priority_unauthorized(self):
         """Test updating priorities with invalid data"""
 
         payload = {
-            'update':
-            {
+            "update": {
                 "test id": 1,
                 "test id 2": 2,
             }
         }
-        url = reverse('update_priority')
-        response = self.unauthorized_client.patch(
-            url, data=payload, format='json')
+        url = reverse("update_priority")
+        response = self.unauthorized_client.patch(url, data=payload, format="json")
 
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_PATCH_update_priority_invalid_task_id(self):
         """Test updating priorities with invalid task_id data"""
-        payload = {
-            'update':
-            {
-                "invalid": 1  # invalid data
-            }
-        }
-        url = reverse('update_priority')
-        response = self.client.patch(url, data=payload, format='json')
+        payload = {"update": {"invalid": 1}}  # invalid data
+        url = reverse("update_priority")
+        response = self.client.patch(url, data=payload, format="json")
 
         self.assertIn("task_id is not a valid uuid field", response.data)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_PATCH_update_priority_invalid_priority_str(self):
         """Test updating priorities with invalid priority data - string"""
-        payload = {
-            'update':
-            {
-                str(self.task_1.task_id): True  # invalid priority data
-            }
-        }
-        url = reverse('update_priority')
-        response = self.client.patch(url, data=payload, format='json')
+        payload = {"update": {str(self.task_1.task_id): True}}  # invalid priority data
+        url = reverse("update_priority")
+        response = self.client.patch(url, data=payload, format="json")
 
         self.assertIn("priority is not a valid integer", response.data)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_PATCH_update_priority_invalid_priority_negative(self):
         """Test updating priorities with invalid priority data - negative num"""
-        payload = {
-            'update':
-            {
-                str(self.task_1.task_id): -5  # invalid priority data
-            }
-        }
-        url = reverse('update_priority')
-        response = self.client.patch(url, data=payload, format='json')
+        payload = {"update": {str(self.task_1.task_id): -5}}  # invalid priority data
+        url = reverse("update_priority")
+        response = self.client.patch(url, data=payload, format="json")
 
         self.assertIn("priority is not a valid integer", response.data)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
@@ -318,15 +301,14 @@ class TestUpdateTaskPriorityAPI(TestCase):
         """Test updating priorities other user's tasks"""
 
         payload = {
-            'update':
-            {
+            "update": {
                 str(self.task_3.task_id): 2,  # another user's task
-                str(self.task_2.task_id): 1
+                str(self.task_2.task_id): 1,
             }
         }
 
-        url = reverse('update_priority')
-        response = self.client.patch(url, data=payload, format='json')
+        url = reverse("update_priority")
+        response = self.client.patch(url, data=payload, format="json")
 
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(response.data, "You cannot modify other users' tasks")
