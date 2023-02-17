@@ -6,6 +6,8 @@ __pycache__
 db.sqlite3
 media
 
+
+
 # Backup files # 
 *.bak 
 
@@ -83,6 +85,7 @@ nosetests.xml
 coverage.xml 
 *.cover 
 .hypothesis/ 
+coverage_report/
 
 # Jupyter Notebook 
 .ipynb_checkpoints 

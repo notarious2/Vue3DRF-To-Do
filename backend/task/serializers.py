@@ -27,4 +27,13 @@ class TaskPriorityUpdateSerializer(serializers.Serializer):
                 except:
                     raise serializers.ValidationError(
                         "task_id is not a valid uuid field")
+                try:
+                    if isinstance(value, (bool, float, str)):
+                        raise Exception
+                    elif int(value) <= 0:
+                        raise Exception
+                except:
+                    raise serializers.ValidationError(
+                        "priority is not a valid integer")
+
         return super(TaskPriorityUpdateSerializer, self).__init__(*args, **kwargs)

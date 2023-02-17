@@ -1,5 +1,5 @@
 from django.test import TestCase
-from task.views import TaskViewAPI, TaskDetailAPI, TaskUpdatePriority
+from task.views import TaskViewAPI, TaskDetailAPI, TaskUpdatePriorityAPI
 from django.urls import reverse, resolve
 from user.models import User
 from task.models import Task
@@ -28,4 +28,4 @@ class TestTaskUrls(TestCase):
     def test_change_tasks_url_is_resolved(self):
         """Test that url to update priority of tasks/patch is resolved"""
         url = reverse('update_priority')
-        self.assertEqual(resolve(url).func.view_class, TaskUpdatePriority)
+        self.assertEqual(resolve(url).func.view_class, TaskUpdatePriorityAPI)
