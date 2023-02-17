@@ -26,6 +26,26 @@
     <li>
         <p><strong>Axios</strong> for making HTTP Requests, including advanced interceptors usage to <strong>refresh</strong> JWT tokens</p>
     </li>
+</ul>
+
+### Backend
+
+<ul>
+    <li>
+        <p>Django 4 and Django REST Framework</p>
+    </li>
+        <p>JWT refresh and access tokens for Authentication</p>
+    </li>
+    </li>
+        <p>Automatic Open API/Swagger generation with <strong>drf-yasg</strong></p>
+    </li>
+    <li>
+        <p><strong>100%</strong>Unit Test coverage of models, urls, views and APIs</p>
+    </li>
+    <li>
+        <p><strong>Github actions</strong> to run Unit Tests and Lint</p>
+    </li>
+</ul>
 
 <img src="images/todo_1.png" alt="Front page"/>
 <img src="images/todo_2.png" alt="Front page"/>
