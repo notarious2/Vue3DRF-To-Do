@@ -1,12 +1,15 @@
-
 # Draggable Post-it style To-Do App
+
 ## Vue 3 and Django REST Framework
 
 ---
+
 ### Demo
+
 <p>https://django.stickydo.us</p>
 
 ### Frontend
+
 <ul>
     <li>
         <p>Latest Vue 3 <strong>Composition API</strong> Script Setup</p>
@@ -23,6 +26,7 @@
     <li>
         <p><strong>Axios</strong> for making HTTP Requests, including advanced interceptors usage to <strong>refresh</strong> JWT tokens</p>
     </li>
-    
 
 <img src="images/todo_1.png" alt="Front page"/>
+<img src="images/todo_2.png" alt="Front page"/>
+<img src="images/todo_3.png" alt="Front page"/>
