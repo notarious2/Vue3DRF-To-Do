@@ -15,19 +15,22 @@ axios.interceptors.response.use(
     const originalRequest = error.config;
     // refresh token may have expired / no token provided
     if (
-      (error.response.status === 401 &&
-        error.response.data.detail === "Token is invalid or expired") ||
-      error.response.data.detail ===
-        "Authentication credentials were not provided."
+      error.response.status === 401 &&
+      (error.response.data.detail === "Token is invalid or expired" ||
+        error.response.data.detail ===
+          "Authentication credentials were not provided." ||
+        // when access token is invalid
+        error.response.data.detail ===
+          "Given token not valid for any token type")
     ) {
       const authStore = useAuthStore();
       authStore.logout();
-    }
-    if (
+    } else if (
       error.response.status === 401 &&
-      error.request.responseURL.includes(axios.defaults.baseURL) &&
+      error.request.responseURL.includes(axios.defaults.baseURL + "/task") &&
       !originalRequest._retry
     ) {
+      console.log("here", error.request.responseURL);
       originalRequest._retry = true;
       const authStore = useAuthStore();
       // get newly assigned access token
@@ -35,7 +38,9 @@ axios.interceptors.response.use(
       // retry original request
       originalRequest.headers["Authorization"] = "Bearer " + newAccessToken;
       return axios.request(originalRequest);
+    } else {
+      // some other error
+      return Promise.reject(error);
     }
-    return Promise.reject(error);
   }
 );

@@ -37,8 +37,8 @@
         />
       </div>
       <button class="button-74" type="submit">Submit</button>
-      <div id="error-message" v-if="authStore.errorLogIn">
-        Incorrect Email or Password
+      <div id="error-message" v-if="errorLogIn">
+        {{ errorMessage }}
       </div>
     </form>
   </PostIt>
@@ -48,6 +48,7 @@
 import { ref } from "vue";
 import { useAuthStore } from "../components/store/userAuth.js";
 import PostIt from "../components/layout/PostIt.vue";
+import { storeToRefs } from "pinia";
 
 const authStore = useAuthStore();
 const showUrls = ref([
@@ -58,6 +59,8 @@ const username = ref("");
 const password = ref("");
 const showPassword = ref(false);
 const passwordType = ref("password");
+
+const { errorMessage, errorLogIn } = storeToRefs(authStore);
 
 function toggleShow() {
   showPassword.value = !showPassword.value;

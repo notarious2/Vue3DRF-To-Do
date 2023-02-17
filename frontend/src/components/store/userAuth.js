@@ -8,6 +8,7 @@ export const useAuthStore = defineStore("authentication", {
     // initialize state from local storage to enable user to stay logged in
     // user: JSON.parse(localStorage.getItem("user")),
     errorLogIn: false,
+    errorMessage: "",
     isAuthenticated: false,
     errorRegister: false,
   }),
@@ -36,6 +37,12 @@ export const useAuthStore = defineStore("authentication", {
         .catch((error) => {
           console.log(error);
           this.errorLogIn = true;
+          // catching connection refused error
+          if (error.message === "Network Error") {
+            this.errorMessage = error.message;
+          } else {
+            this.errorMessage = error.response.data.detail;
+          }
         });
     },
     async register(payload) {
