@@ -33,10 +33,10 @@
 <ul>
     <li>
         <p>Django 4 and Django REST Framework</p>
-    </li>
+    <li>
         <p>JWT refresh and access tokens for Authentication</p>
     </li>
-    </li>
+    <li>
         <p>Automatic Open API/Swagger generation with <strong>drf-yasg</strong></p>
     </li>
     <li>
@@ -47,6 +47,7 @@
     </li>
 </ul>
 
-<img src="images/todo_1.png" alt="Front page"/>
-<img src="images/todo_2.png" alt="Front page"/>
-<img src="images/todo_3.png" alt="Front page"/>
+<img src="images/todo_1.png" alt="Front image 1"/>
+<img src="images/todo_2.png" alt="Front image 2"/>
+<img src="images/todo_3.png" alt="Front image 3"/>
+<img src="images/swagger.png" alt="Swagger"/>
