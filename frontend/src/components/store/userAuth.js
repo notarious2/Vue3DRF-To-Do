@@ -41,7 +41,7 @@ export const useAuthStore = defineStore("authentication", {
           if (error.message === "Network Error") {
             this.errorMessage = error.message;
           } else {
-            this.errorMessage = error.response.data.detail;
+            this.errorMessage = "Incorrect username/email or password";
           }
         });
     },
