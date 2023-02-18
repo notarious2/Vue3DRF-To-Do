@@ -11,6 +11,7 @@ omit =
    *asgi*
    *wsgi*
    *admin.py
+   *backends.py
 
 [html]
 directory = coverage_report
