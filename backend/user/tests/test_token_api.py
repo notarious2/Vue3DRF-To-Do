@@ -30,7 +30,8 @@ class TestJWTAPIs(TestCase):
         """Test creating JWT access and refresh tokens with valid email/password"""
         url = reverse("jwt-create")
         response = self.client.post(
-            url, data={"username": "test@example.com", "password": "testpassword"}
+            url, data={"username": "test@example.com",
+                       "password": "testpassword"}
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIn("refresh", response.data)
@@ -44,7 +45,8 @@ class TestJWTAPIs(TestCase):
         )
 
         self.assertIn(
-            "No active account found with the given credentials", str(response.data)
+            "No active account found with the given credentials", str(
+                response.data)
         )
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
@@ -63,12 +65,14 @@ class TestJWTAPIs(TestCase):
 
         # obtain refresh token from jwt-create
         get_tokens = self.client.post(
-            create_url, data={"username": "testuser", "password": "testpassword"}
+            create_url, data={"username": "testuser",
+                              "password": "testpassword"}
         )
         refresh_token = get_tokens.data["refresh"]
 
         # obtain new access token
-        response = self.client.post(refresh_url, data={"refresh": refresh_token})
+        response = self.client.post(
+            refresh_url, data={"refresh": refresh_token})
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIn("access", response.data)
