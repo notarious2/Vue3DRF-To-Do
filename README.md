@@ -8,7 +8,7 @@
 
 <p>https://django.stickydo.us</p>
 
-### Frontend
+### Frontend - Vue-3 (Composition API Script Setup)
 
 <ul>
     <li>
@@ -28,7 +28,7 @@
     </li>
 </ul>
 
-### Backend
+### Backend - Django 4 and DRF
 
 <ul>
     <li>
@@ -43,7 +43,7 @@
         <p>Automatic Open API/Swagger generation with <strong>drf-yasg</strong> Available <a href="https://notarious.pythonanywhere.com/docs/">Online</a></p>
     </li>
     <li>
-        <p><strong>100%</strong>Unit Test coverage of models, urls, views and APIs</p>
+        <p><strong>100%</strong> Unit Test coverage of models, urls, views and APIs, including JWT APIs</p>
     </li>
     <li>
         <p><strong>Github actions</strong> to run Unit Tests and Linting (with Black)</p>
