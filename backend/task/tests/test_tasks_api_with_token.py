@@ -176,15 +176,14 @@ class TestTaskDetailAPI(TestCase):
         url = reverse("change_tasks", args=[self.task_1.task_id])
 
         response = self.client.patch(
-            url, data=payload, content_type="application/json", **self.headers)
+            url, data=payload, content_type="application/json", **self.headers
+        )
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data, "Task has been updated")
-        self.assertEqual(Task.objects.filter(
-            user=self.user_1)[0].text, payload["text"])
+        self.assertEqual(Task.objects.filter(user=self.user_1)[0].text, payload["text"])
         self.assertEqual(
-            Task.objects.filter(user=self.user_1)[
-                0].priority, payload["priority"]
+            Task.objects.filter(user=self.user_1)[0].priority, payload["priority"]
         )
 
     def test_PATCH_update_multiple_invalid(self):
@@ -192,7 +191,8 @@ class TestTaskDetailAPI(TestCase):
         payload = {"priority": False, "text": "updated text"}  # invalid input
         url = reverse("change_tasks", args=[self.task_1.task_id])
         response = self.client.patch(
-            url, data=payload, content_type="application/json", **self.headers)
+            url, data=payload, content_type="application/json", **self.headers
+        )
 
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
@@ -250,8 +250,7 @@ class TestUpdateTaskPriorityAPI(TestCase):
     def test_PATCH_update_priority_valid(self):
         """Test updating priorities succeeds"""
 
-        payload = {"update": {str(self.task_1.task_id)
-                                  : 2, str(self.task_2.task_id): 1}}
+        payload = {"update": {str(self.task_1.task_id): 2, str(self.task_2.task_id): 1}}
 
         # double check priorities before request
         self.assertEqual(
@@ -263,7 +262,8 @@ class TestUpdateTaskPriorityAPI(TestCase):
 
         url = reverse("update_priority")
         response = self.client.patch(
-            url, data=payload, content_type="application/json", **self.headers)
+            url, data=payload, content_type="application/json", **self.headers
+        )
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data, "Tasks order has been updated")
@@ -285,8 +285,7 @@ class TestUpdateTaskPriorityAPI(TestCase):
             }
         }
         url = reverse("update_priority")
-        response = self.client.patch(
-            url, data=payload, content_type="application/json")
+        response = self.client.patch(url, data=payload, content_type="application/json")
 
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
@@ -295,29 +294,30 @@ class TestUpdateTaskPriorityAPI(TestCase):
         payload = {"update": {"invalid": 1}}  # invalid data
         url = reverse("update_priority")
         response = self.client.patch(
-            url, data=payload, content_type="application/json", **self.headers)
+            url, data=payload, content_type="application/json", **self.headers
+        )
 
         self.assertIn("task_id is not a valid uuid field", response.data)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_PATCH_update_priority_invalid_priority_str(self):
         """Test updating priorities with invalid priority data - string"""
-        payload = {"update": {str(self.task_1.task_id): True}
-                   }  # invalid priority data
+        payload = {"update": {str(self.task_1.task_id): True}}  # invalid priority data
         url = reverse("update_priority")
         response = self.client.patch(
-            url, data=payload, content_type="application/json", **self.headers)
+            url, data=payload, content_type="application/json", **self.headers
+        )
 
         self.assertIn("priority is not a valid integer", response.data)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_PATCH_update_priority_invalid_priority_negative(self):
         """Test updating priorities with invalid priority data - negative num"""
-        payload = {"update": {str(self.task_1.task_id): -5}
-                   }  # invalid priority data
+        payload = {"update": {str(self.task_1.task_id): -5}}  # invalid priority data
         url = reverse("update_priority")
         response = self.client.patch(
-            url, data=payload, content_type="application/json", **self.headers)
+            url, data=payload, content_type="application/json", **self.headers
+        )
 
         self.assertIn("priority is not a valid integer", response.data)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
@@ -334,7 +334,8 @@ class TestUpdateTaskPriorityAPI(TestCase):
 
         url = reverse("update_priority")
         response = self.client.patch(
-            url, data=payload, content_type="application/json", **self.headers)
+            url, data=payload, content_type="application/json", **self.headers
+        )
 
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(response.data, "You cannot modify other users' tasks")
