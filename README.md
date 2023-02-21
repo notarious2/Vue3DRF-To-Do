@@ -8,8 +8,7 @@
 
 <p>https://django.stickydo.us</p>
 
-### Frontend - Vue-3 (Composition API Script Setup)
-
+### Frontend
 <ul>
     <li>
         <p>Latest Vue 3 <strong>Composition API</strong> Script Setup</p>
@@ -28,7 +27,7 @@
     </li>
 </ul>
 
-### Backend - Django 4 and DRF
+### Backend
 
 <ul>
     <li>
