@@ -7,6 +7,7 @@
 ### Demo
 
 <p>https://django.stickydo.us</p>
+<p>same app, but using <strong>FastAPI</strong> on backend https://stickydo.us | repo: https://github.com/notarious2/Vue3FastAPI-To-Do</p>
 
 ### Frontend
 <ul>
