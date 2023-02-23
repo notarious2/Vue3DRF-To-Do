@@ -7,9 +7,9 @@
 ### Demo
 
 <p>https://django.stickydo.us</p>
+<p>same frontend, but using <strong>FastAPI</strong> on backend https://stickydo.us | repo: https://github.com/notarious2/Vue3FastAPI-To-Do</p>
 
-### Frontend - Vue-3 (Composition API Script Setup)
-
+### Frontend
 <ul>
     <li>
         <p>Latest Vue 3 <strong>Composition API</strong> Script Setup</p>
@@ -28,7 +28,7 @@
     </li>
 </ul>
 
-### Backend - Django 4 and DRF
+### Backend
 
 <ul>
     <li>
