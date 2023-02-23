@@ -17,7 +17,7 @@ app.component("the-header", TheHeader);
 app.component("the-footer", TheFooter);
 
 app.use(router);
-app.use(VueGtag, { config: { id: "G-K5K4DRCBCT" } }); // for google analytics
+app.use(VueGtag, { config: { id: "G-7S5VKGG2LQ" } }); // for google analytics
 pinia.use(piniaPersist);
 app.use(pinia);
 
